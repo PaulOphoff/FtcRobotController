@@ -34,6 +34,10 @@ public class PrototypeAuto2 extends OpMode {
     private DcMotor intake = null;
     private DcMotor lift = null;
     private Servo grabber = null;
+    private Servo leftDumper = null;
+    private Servo rightDumper = null;
+    private double rightDumperStartPosition = .8;
+    private double leftDumperStartPosition = .2;
     boolean HasRouteRun = false;
     double StartTime = getRuntime();
     double CurrentTime = getRuntime();
@@ -139,6 +143,8 @@ public class PrototypeAuto2 extends OpMode {
         intake = hardwareMap.get(DcMotor.class, "intake");
         lift = hardwareMap.get(DcMotor.class, "lift");
         grabber = hardwareMap.get(Servo.class, "grabber");
+        leftDumper = hardwareMap.get(Servo.class, "left_dumper");
+        rightDumper = hardwareMap.get(Servo.class, "right_dumper");
 
         leftCenter.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -260,7 +266,7 @@ public class PrototypeAuto2 extends OpMode {
             telemetry.addData("Position", "L: %d, R: %d", leftCenter.getCurrentPosition(), rightCenter.getCurrentPosition());
             telemetry.update();
         }
-        while ((CurrentTime - StartTime >= 5.1) && (CurrentTime - StartTime < 56)) {
+        while ((CurrentTime - StartTime >= 5.1) && (CurrentTime - StartTime < 6)) {
             CurrentTime = getRuntime();
             leftCenter.setTargetPosition((int) ((StartPositionLeft) + (TICKS_PER_DEGREE * 30)));
             leftCenter.setPower(.5);
@@ -334,13 +340,38 @@ public class PrototypeAuto2 extends OpMode {
         }
         while ((CurrentTime - StartTime >= 8.6) && (CurrentTime - StartTime < 9.4)) {
             CurrentTime = getRuntime();
+            rightDumper.setPosition(.25);
+            leftDumper.setPosition(.75);
             telemetry.addData("Status", "13th phase of Normal route");
             telemetry.addData("Position", "L: %d, R: %d", leftCenter.getCurrentPosition(), rightCenter.getCurrentPosition());
             telemetry.update();
         }
+        while ((CurrentTime - StartTime >= 9.4) && (CurrentTime - StartTime < 9.5)) {
+            CurrentTime = getRuntime();
+            StartPositionLeft = leftCenter.getCurrentPosition();
+            StartPositionRight = rightCenter.getCurrentPosition();
+            telemetry.addData("Status", "14th phase of Normal route");
+            telemetry.addData("Position", "L: %d, R: %d", leftCenter.getCurrentPosition(), rightCenter.getCurrentPosition());
+            telemetry.update();
+        }
+        while ((CurrentTime - StartTime >= 9.5) && (CurrentTime - StartTime < 10.5)) {
+            CurrentTime = getRuntime();
+            leftCenter.setTargetPosition((int) ((StartPositionLeft) + (TICKS_PER_INCH * -50)));
+            leftCenter.setPower(-.5);
+            rightCenter.setTargetPosition((int) ((StartPositionRight) + (TICKS_PER_INCH * -50)));
+            rightCenter.setPower(-.5);
+            telemetry.addData("Status", "15th phase of Normal route");
+            telemetry.addData("Position", "L: %d, R: %d", leftCenter.getCurrentPosition(), rightCenter.getCurrentPosition());
+            telemetry.update();
+        }
+        while ((CurrentTime - StartTime >= 10.5) && (CurrentTime - StartTime < 10.6)) {
+            CurrentTime = getRuntime();
+            StartPositionLeft = leftCenter.getCurrentPosition();
+            StartPositionRight = rightCenter.getCurrentPosition();
+            telemetry.addData("Status", "16th phase of Normal route");
+            telemetry.addData("Position", "L: %d, R: %d", leftCenter.getCurrentPosition(), rightCenter.getCurrentPosition());
+            telemetry.update();
+        }
+        stop();
     }
-
-    /**
-     * Initialize the Vuforia localization engine.
-     */
 }

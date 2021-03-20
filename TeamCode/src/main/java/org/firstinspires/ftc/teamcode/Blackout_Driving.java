@@ -71,12 +71,12 @@ public class Blackout_Driving extends OpMode {
     private Servo grabber = null;
     private Servo leftDumper = null;
     private Servo rightDumper = null;
-    private double rightDumperStartPosition = .61;
-    private double leftDumperStartPosition = .32;
+    private double rightDumperStartPosition = .8;
+    private double leftDumperStartPosition = .2;
     private final double grabberClosedPosition = .10;
     private final double grabberOpenPosition = .50;
     boolean isGrabberOpen = true;
-    TouchSensor limitSwitch;
+    private TouchSensor limitSwitch;
 
 
     /*
@@ -120,6 +120,7 @@ public class Blackout_Driving extends OpMode {
         lift.setTargetPosition(0);
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+
         rightDumper.setPosition(rightDumperStartPosition);
         leftDumper.setPosition(leftDumperStartPosition);
         telemetry.addData("position away from target", lift.getTargetPosition() - lift.getCurrentPosition());
@@ -137,8 +138,15 @@ public class Blackout_Driving extends OpMode {
      */
     @Override
     public void init_loop() {
-    }
 
+        if(limitSwitch.isPressed()){
+            lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            lift.setTargetPosition(1000);
+            lift.setVelocity(200);
+        }
+    }
     /*
      * Code to run ONCE when the driver hits PLAY
      */
@@ -213,16 +221,12 @@ public class Blackout_Driving extends OpMode {
         boolean Dumper_return_button = gamepad1.dpad_down;
         boolean Dumper_halfway_button = gamepad1.dpad_right;
         if(Dumper_button == true){
-            rightDumper.setPosition(.125);
-            leftDumper.setPosition(.82);
+            rightDumper.setPosition(.25);
+            leftDumper.setPosition(.75);
         }
         else if(Dumper_return_button == true){
             rightDumper.setPosition(rightDumperStartPosition);
             leftDumper.setPosition(leftDumperStartPosition);
-        }
-        else if(Dumper_halfway_button == true){
-            rightDumper.setPosition(.125);
-            leftDumper.setPosition(.82);
         }
         /*if(rangeSensor.rawUltrasonic() < 5 ) {
             leftBack.setPower(0);

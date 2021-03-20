@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,8 +12,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "Prototype Autonomous 2.0")
-public class PrototypeAuto2 extends OpMode {
+@Disabled
+@Autonomous(name = "Prototype Autonomous 2.0 Bakup")
+public class PrototypeAuto2Backup extends OpMode {
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
